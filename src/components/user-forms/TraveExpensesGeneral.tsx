@@ -1,34 +1,46 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import React from "react";
+import { useFormContext, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { TextField, Button, Container, Typography, Box } from "@mui/material";
 
 const travelCostSchema = z.object({
   employeeName: z.string().min(1, { message: "Employee name is required" }),
   client: z.string().min(1, { message: "Client is required" }),
   project: z.string().min(1, { message: "Project is required" }),
-  purposeOfTravel: z.string().min(1, { message: "Purpose of travel is required" }),
+  purposeOfTravel: z
+    .string()
+    .min(1, { message: "Purpose of travel is required" }),
+  tripStartTime: z.date(),
+  tripEndTime: z.date(),
+  departureAddress: z
+    .string()
+    .nonempty({ message: "Departure address is required" }),
+  firstTimeField: z.date(),
+  secondTimeField: z.date(),
+  comment: z.string().optional(),
 });
 
 type TravelCostFormInputs = z.infer<typeof travelCostSchema>;
 
-const TravelCostForm: React.FC = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm<TravelCostFormInputs>({
-    resolver: zodResolver(travelCostSchema),
-  });
-
-  const onSubmit = (data: TravelCostFormInputs) => {
-    console.log(data);
-  };
+const TravelExpensesGeneral: React.FC<{ onStepChange: () => void }> = ({
+  onStepChange,
+}) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Travel Cost Form
+          Trip
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Box
+          component="form"
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
           <Controller
             name="employeeName"
             control={control}
@@ -41,7 +53,7 @@ const TravelCostForm: React.FC = () => {
                 fullWidth
                 margin="normal"
                 error={!!errors.employeeName}
-                helperText={errors.employeeName?.message}
+                //helperText={errors.employeeName?.message}
               />
             )}
           />
@@ -57,7 +69,7 @@ const TravelCostForm: React.FC = () => {
                 fullWidth
                 margin="normal"
                 error={!!errors.client}
-                helperText={errors.client?.message}
+                //helperText={errors.client?.message}
               />
             )}
           />
@@ -73,7 +85,7 @@ const TravelCostForm: React.FC = () => {
                 fullWidth
                 margin="normal"
                 error={!!errors.project}
-                helperText={errors.project?.message}
+                //helperText={errors.project?.message}
               />
             )}
           />
@@ -89,19 +101,17 @@ const TravelCostForm: React.FC = () => {
                 fullWidth
                 margin="normal"
                 error={!!errors.purposeOfTravel}
-                helperText={errors.purposeOfTravel?.message}
+                //helperText={errors.purposeOfTravel?.message}
               />
             )}
           />
-          <Box sx={{ mt: 2 }}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Submit
-            </Button>
-          </Box>
-        </form>
+          <Button onClick={onStepChange} variant="contained">
+            Next
+          </Button>
+        </Box>
       </Box>
     </Container>
   );
 };
 
-export default TravelCostForm;
+export default TravelExpensesGeneral;
