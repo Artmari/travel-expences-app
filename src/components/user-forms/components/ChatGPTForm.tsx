@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useState, FormEvent } from 'react';
 import { Container, TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
-import { generateText } from '../../OpenAIIntegration';
+import { generateText } from '../../../OpenAIIntegration';
 
 const ChatGPTForm: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('');

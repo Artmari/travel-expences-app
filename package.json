@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.11.5",
     "@google/generative-ai": "^0.14.1",
     "@hookform/resolvers": "^3.7.0",
+    "@mui/icons-material": "^5.15.21",
     "@mui/material": "^5.15.21",
     "@mui/x-date-pickers": "^7.8.0",
     "@react-google-maps/api": "^2.19.3",
