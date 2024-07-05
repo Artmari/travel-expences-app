@@ -1,13 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { alpha, styled } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Bubble = styled(Box)(({ theme }) => ({
   position: "absolute",
   left: "40%",
-  top: "-30px",
-  minWidth: "200px",
-  minHeight: "50px",
+  top: "-100px",
+  minWidth: "300px",
+  minHeight: "40px",
   border: "2px solid black",
   backgroundColor: "white",
   borderRadius: "10px",
@@ -27,11 +28,13 @@ const Bubble = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ThoughtBubble: React.FC<{ text?: string }> = ({ text }) => {
+const ThoughtBubble: React.FC<{ text?: string; isLoading: boolean }> = ({
+  text, isLoading
+}) => {
   return (
     <Bubble>
       <Box display="flex" justifyContent="center" alignItems="center" p={3}>
-        <Typography>{text}</Typography>
+        {isLoading ? <CircularProgress /> : <Typography>{text}</Typography>}
       </Box>
     </Bubble>
   );

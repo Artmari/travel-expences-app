@@ -9,6 +9,7 @@ import FormStepContainer from "../layout/FormStepContainer";
 import FromTitle from "../layout/FormTitle";
 import TravelExpensesTransport from "./steps/TravelExpensesTransportation";
 import TravelExpensesOvernightStay from "./steps/TravelExpensesOvernightStay";
+import { prompts, comments } from "../../data/prompts";
 
 const travelCostSchema = z
   .object({
@@ -29,7 +30,7 @@ const travelCostSchema = z
     secondTimeField: z.date(),
     comment: z.string().optional(),
     //transport
-   transportType: z.string().nonempty("Transport type is required"),
+    transportType: z.string().nonempty("Transport type is required"),
     licensePlate: z.string().optional().nullable(),
     mileageStart: z.number().optional().nullable(),
     mileageEnd: z.number().optional().nullable(),
@@ -67,6 +68,8 @@ const MultiStepForm: React.FC = () => {
     console.log(data);
   };
 
+  console.log("prompts", prompts);
+
   return (
     <FormProvider {...methods}>
       <Container maxWidth="md">
@@ -82,7 +85,10 @@ const MultiStepForm: React.FC = () => {
           {step === 1 && (
             <>
               <FromTitle title="General" />
-              <FormStepContainer bubbleText={"How can't I help you?"}>
+              <FormStepContainer
+                bubbleText={"How can't I help you?"}
+                prompt={prompts.generalDetailsPrompt}
+              >
                 <TravelExpensesGeneral onNext={handleNext} />
               </FormStepContainer>
             </>
@@ -94,6 +100,7 @@ const MultiStepForm: React.FC = () => {
                 bubbleText={
                   "Oh, wow the time management is not your thing, huh?"
                 }
+                prompt={prompts.tripDatesPrompt}
               >
                 <TravelExpensesTrip onNext={handleNext} onBack={handleBack} />
               </FormStepContainer>
@@ -102,7 +109,10 @@ const MultiStepForm: React.FC = () => {
           {step === 3 && (
             <>
               <FromTitle title="Transportation" />
-              <FormStepContainer bubbleText={"Lol, save the world! Choo choo"}>
+              <FormStepContainer
+                bubbleText={"Lol, save the world! Choo choo"}
+                prompt={prompts.travelDetailsPrompt}
+              >
                 <TravelExpensesTransport onBack={handleBack} />
               </FormStepContainer>
             </>

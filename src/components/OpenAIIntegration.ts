@@ -4,19 +4,22 @@ import axios from "axios";
 const API_KEY = "";
 
 const openaiService = axios.create({
-  baseURL: "https://api.openai.com/v1",
+  baseURL: "",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${API_KEY}`,
+    "api-key": `${API_KEY}`,
   },
 });
 
 export const generateText = async (prompt: any) => {
   try {
-    const response = await openaiService.post("/completions", {
-      model: "text-davinci-003", // or the model you are using
+    const response = await openaiService.post("", {
+      //model: "sclable-gpt-35-turbo",
       prompt: prompt,
-      max_tokens: 150, // you can adjust this as needed
+      max_tokens: 30, // you can adjust this as needed
+      temperature: 0.2,
+      presence_penalty: 0.5,
+      frequency_penalty: 0.3,
     });
     return response.data.choices[0].text;
   } catch (error) {

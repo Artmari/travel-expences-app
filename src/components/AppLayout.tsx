@@ -7,7 +7,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import Footer from "./Footer";
+import Footer from "./layout/Footer";
 import ChatGPTForm from "./user-forms/components/ChatGPTForm";
 import MultiStepForm from "./user-forms/MultiStepFrom";
 
