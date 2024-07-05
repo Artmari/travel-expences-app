@@ -67,8 +67,10 @@ const MultiStepForm: React.FC = () => {
     console.log(data);
   };
 
+  console.log(methods.getValues());
+
   return isSubmitted ? (
-    <SuccessScreen />
+    <SuccessScreen formData={methods.getValues()} />
   ) : (
     <FormProvider {...methods}>
       <Container maxWidth="md">

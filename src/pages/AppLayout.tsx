@@ -8,9 +8,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import Footer from "./layout/Footer";
-import ChatGPTForm from "./user-forms/components/ChatGPTForm";
-import MultiStepForm from "./user-forms/MultiStepFrom";
+import Footer from "../components/layout/Footer";
+import ChatGPTForm from "../components/user-forms/components/ChatGPTForm";
+import MultiStepForm from "../components/user-forms/MultiStepFrom";
 
 const AppLayout: React.FC = () => {
   return (

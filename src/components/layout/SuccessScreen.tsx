@@ -2,8 +2,9 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import ThoughtBubbleWrapper from "./ThoughtBubbleWrapper";
+import ExportPdfButton from "../PdfRenderer";
 
-const SuccessScreen: React.FC = () => {
+const SuccessScreen: React.FC<{ formData: any }> = ({ formData }) => {
   return (
     <Box
       display="flex"
@@ -20,7 +21,7 @@ const SuccessScreen: React.FC = () => {
           prompt="congratulate employee with accomlishing task"
         ></ThoughtBubbleWrapper>
       </Box>
-      <Button></Button>
+      <ExportPdfButton formData={formData} />
     </Box>
   );
 };
