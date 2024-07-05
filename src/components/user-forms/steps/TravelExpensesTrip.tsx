@@ -7,6 +7,7 @@ import {
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import FormFieldTitle from "../../layout/FormFieldTitle";
 
 const TravelExpensesTrip: React.FC<{
   onNext: () => void;
@@ -23,12 +24,13 @@ const TravelExpensesTrip: React.FC<{
         component="form"
         sx={{ display: "flex", flexDirection: "column", gap: 2 }}
       >
+        <FormFieldTitle title="When did your trip started?" />
         <Controller
-          name="tripStartTime"
+          name="tripStartDate"
           control={control}
           render={({ field }) => (
             <DatePicker
-              label="Trip Start Time"
+              label="Starting Date"
               value={field.value}
               onChange={field.onChange}
               slots={{
@@ -43,21 +45,20 @@ const TravelExpensesTrip: React.FC<{
             />
           )}
         />
-
         <Controller
-          name="tripEndTime"
+          name="tripStartTime"
           control={control}
           render={({ field }) => (
-            <DatePicker
-              label="Trip End Time"
+            <TimePicker
+              label="Starting Time"
               value={field.value}
               onChange={field.onChange}
               slots={{
                 textField: (params: any) => (
                   <TextField
                     {...params}
-                    error={!!errors.tripEndTime}
-                    helperText={errors.tripEndTime?.message}
+                    error={!!errors.firstTimeField}
+                    helperText={errors.firstTimeField?.message}
                   />
                 ),
               }}
@@ -77,12 +78,81 @@ const TravelExpensesTrip: React.FC<{
           )}
         />
 
+        <FormFieldTitle title="International trip" />
+
+        <Box display="flex" gap={2}>
+          <Controller
+            name="borderCrossingDestination"
+            control={control}
+            render={({ field }) => (
+              <TimePicker
+                label="Enter time"
+                value={field.value}
+                onChange={field.onChange}
+                slots={{
+                  textField: (params: any) => (
+                    <TextField
+                      {...params}
+                      error={!!errors.firstTimeField}
+                      helperText={errors.firstTimeField?.message}
+                    />
+                  ),
+                }}
+              />
+            )}
+          />
+
+          <Controller
+            name="borderCrossingHome"
+            control={control}
+            render={({ field }) => (
+              <TimePicker
+                label="Enter time"
+                value={field.value}
+                onChange={field.onChange}
+                slots={{
+                  textField: (params: any) => (
+                    <TextField
+                      {...params}
+                      error={!!errors.secondTimeField}
+                      helperText={errors.secondTimeField?.message}
+                    />
+                  ),
+                }}
+              />
+            )}
+          />
+        </Box>
+
+        <FormFieldTitle title="When did your trip ended?" />
+
         <Controller
-          name="firstTimeField"
+          name="tripEndDate"
+          control={control}
+          render={({ field }) => (
+            <DatePicker
+              label="End Date"
+              value={field.value}
+              onChange={field.onChange}
+              slots={{
+                textField: (params: any) => (
+                  <TextField
+                    {...params}
+                    error={!!errors.tripEndTime}
+                    helperText={errors.tripEndTime?.message}
+                  />
+                ),
+              }}
+            />
+          )}
+        />
+
+        <Controller
+          name="tripEndTime"
           control={control}
           render={({ field }) => (
             <TimePicker
-              label="First Time Field"
+              label="Arrival Time"
               value={field.value}
               onChange={field.onChange}
               slots={{
@@ -99,22 +169,13 @@ const TravelExpensesTrip: React.FC<{
         />
 
         <Controller
-          name="secondTimeField"
+          name="arrivalAddress"
           control={control}
           render={({ field }) => (
-            <TimePicker
-              label="Second Time Field"
-              value={field.value}
-              onChange={field.onChange}
-              slots={{
-                textField: (params: any) => (
-                  <TextField
-                    {...params}
-                    error={!!errors.secondTimeField}
-                    helperText={errors.secondTimeField?.message}
-                  />
-                ),
-              }}
+            <TextField
+              label="Arrival Address"
+              error={!!errors.departureAddress}
+              {...field}
             />
           )}
         />

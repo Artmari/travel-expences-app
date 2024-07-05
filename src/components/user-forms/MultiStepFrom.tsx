@@ -10,47 +10,42 @@ import FromTitle from "../layout/FormTitle";
 import TravelExpensesTransport from "./steps/TravelExpensesTransportation";
 import TravelExpensesOvernightStay from "./steps/TravelExpensesOvernightStay";
 import { prompts, comments } from "../../data/prompts";
+import SuccessScreen from "../layout/SuccessScreen";
 
-const travelCostSchema = z
-  .object({
-    //general
-    employeeName: z.string().min(1, { message: "Employee name is required" }),
-    client: z.string().min(1, { message: "Client is required" }),
-    project: z.string().min(1, { message: "Project is required" }),
-    purposeOfTravel: z
-      .string()
-      .min(1, { message: "Purpose of travel is required" }),
-    //Trip
-    tripStartTime: z.date(),
-    tripEndTime: z.date(),
-    departureAddress: z
-      .string()
-      .nonempty({ message: "Departure address is required" }),
-    firstTimeField: z.date(),
-    secondTimeField: z.date(),
-    comment: z.string().optional(),
-    //transport
-    transportType: z.string().nonempty("Transport type is required"),
-    licensePlate: z.string().optional().nullable(),
-    mileageStart: z.number().optional().nullable(),
-    mileageEnd: z.number().optional().nullable(),
-  })
-  .refine(
-    (data) => {
-      if (data.transportType === "Car") {
-        return (
-          data.licensePlate &&
-          data.mileageStart !== null &&
-          data.mileageEnd !== null
-        );
-      }
-      return true;
-    },
-    {
-      message: "License plate and mileage fields are required for Car",
-      path: ["licensePlate"],
-    }
-  );
+const travelCostSchema = z.object({
+  //general
+  employeeName: z.string().min(1, { message: "Employee name is required" }),
+  client: z.string().min(1, { message: "Client is required" }),
+  project: z.string().min(1, { message: "Project is required" }),
+  purposeOfTravel: z
+    .string()
+    .min(1, { message: "Purpose of travel is required" }),
+  //Trip
+  tripStartDate: z.date(),
+  tripStartTime: z.date().optional(),
+
+  departureAddress: z
+    .string()
+    .nonempty({ message: "Departure address is required" }),
+
+  borderCrossingDestination: z.date().optional(),
+  borderCrossingHome: z.date().optional(),
+
+  tripEndDate: z.date(),
+  tripEndTime: z.date().optional(),
+
+  arrivalAddress: z
+    .string()
+    .nonempty({ message: "Departure address is required" }),
+
+  comment: z.string().optional(),
+  //transport
+  transportType: z.string().nonempty("Transport type is required"),
+  licensePlate: z.string().optional().nullable(),
+  mileageStart: z.number().optional().nullable(),
+  mileageEnd: z.number().optional().nullable(),
+  accommodation: z.array(z.enum(["Hotel", "Private"])),
+});
 
 type TravelCostFormInputs = z.infer<typeof travelCostSchema>;
 
@@ -61,6 +56,10 @@ const MultiStepForm: React.FC = () => {
     mode: "all",
   });
 
+  const {
+    formState: { isSubmitted },
+  } = methods;
+
   const handleNext = () => setStep(step + 1);
   const handleBack = () => setStep(step - 1);
 
@@ -68,9 +67,9 @@ const MultiStepForm: React.FC = () => {
     console.log(data);
   };
 
-  console.log("prompts", prompts);
-
-  return (
+  return isSubmitted ? (
+    <SuccessScreen />
+  ) : (
     <FormProvider {...methods}>
       <Container maxWidth="md">
         <Box
@@ -113,25 +112,29 @@ const MultiStepForm: React.FC = () => {
                 bubbleText={"Lol, save the world! Choo choo"}
                 prompt={prompts.travelDetailsPrompt}
               >
-                <TravelExpensesTransport onBack={handleBack} />
+                <TravelExpensesTransport
+                  onBack={handleBack}
+                  onNext={handleNext}
+                />
               </FormStepContainer>
             </>
           )}
-          {/* {step === 4 && (
+          {step === 4 && (
             <>
               <FromTitle title="Overnight Stay" />
               <FormStepContainer
                 bubbleText={"Next time you can book a better hotel, I promise"}
+                prompt={prompts.stayDetailsPrompt}
               >
-                <TravelExpensesOvernightStay onStepChange={handleBack} />
+                <TravelExpensesOvernightStay onBack={handleBack} />
               </FormStepContainer>
             </>
-          )} */}
+          )}
 
           <Button
             type="submit"
             variant="contained"
-            style={{ visibility: step === 3 ? "visible" : "hidden" }}
+            style={{ visibility: step === 4 ? "visible" : "hidden" }}
           >
             Submit
           </Button>

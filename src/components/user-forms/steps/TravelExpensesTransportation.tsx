@@ -10,10 +10,12 @@ import {
   Grid,
 } from "@mui/material";
 import TransportChipsArray from "../components/TransportChipsArray";
+import FormFieldTitle from "../../layout/FormFieldTitle";
 
 const TravelExpensesTransport: React.FC<{
   onBack: () => void;
-}> = ({ onBack }) => {
+  onNext: () => void;
+}> = ({ onBack, onNext }) => {
   const {
     control,
     formState: { errors },
@@ -26,9 +28,7 @@ const TravelExpensesTransport: React.FC<{
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <Box marginY={3}>
-        <Typography>What transport method do you use?</Typography>
-      </Box>
+      <FormFieldTitle title="What transport method do you use?" />
       <Controller
         name="transportType"
         control={control}
@@ -37,63 +37,64 @@ const TravelExpensesTransport: React.FC<{
           <TransportChipsArray value={field.value} onChange={field.onChange} />
         )}
       />
-      {selectedTransport === "Car" && (
-        <>
-          <Controller
-            name="licensePlate"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="License Plate"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
+      <Box>
+        <FormFieldTitle title="Please fill out if you travel by car (optional)" />
+      </Box>
+      <>
+        <Controller
+          name="licensePlate"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="License Plate"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
 
-          <Controller
-            name="mileageStart"
-            control={control}
-            //defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Mileage at Beginning"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
+        <Controller
+          name="mileageStart"
+          control={control}
+          //defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Mileage at Beginning"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
 
-          <Controller
-            name="mileageEnd"
-            control={control}
-            //defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Mileage at End"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
-          <Typography>Describe the car travel in detail</Typography>
+        <Controller
+          name="mileageEnd"
+          control={control}
+          //defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Mileage at End"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
+        <FormFieldTitle title=" Describe the car travel in detail" />
 
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => <TextField label="Comment" {...field} />}
-          />
-        </>
-      )}
-      {/* <Button onClick={onNext} variant="contained">
-        Next
-      </Button> */}
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => <TextField label="Comment" {...field} />}
+        />
+      </>
       <Button onClick={onBack} variant="contained">
         Back
+      </Button>
+      <Button onClick={onNext} variant="contained">
+        Next
       </Button>
     </Box>
   );

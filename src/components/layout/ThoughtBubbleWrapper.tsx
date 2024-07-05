@@ -23,7 +23,7 @@ const ThoughtBubbleWrapper: React.FC<{ text: string; prompt: string }> = ({
     }
   };
   return (
-    <Box>
+    <Box position="relative">
       <ThoughtBubble
         text={response ? response : text}
         isLoading={loading}
@@ -48,5 +48,3 @@ const ThoughtBubbleWrapper: React.FC<{ text: string; prompt: string }> = ({
 };
 
 export default ThoughtBubbleWrapper;
-
-

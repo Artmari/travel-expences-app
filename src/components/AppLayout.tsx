@@ -6,6 +6,7 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  Box,
 } from "@mui/material";
 import Footer from "./layout/Footer";
 import ChatGPTForm from "./user-forms/components/ChatGPTForm";
@@ -22,9 +23,12 @@ const AppLayout: React.FC = () => {
         </Toolbar>
       </AppBar>
       <Container component="main" sx={{ marginTop: "16px" }}>
-        <Typography variant="h6" gutterBottom>
-          Manage your travel expences
-        </Typography>
+        <Box display="flex" justifyContent="center" mt={2} mb={3}>
+          <Typography variant="h5" gutterBottom>
+            Manage your travel expences
+          </Typography>
+        </Box>
+
         <MultiStepForm />
         {/* <ChatGPTForm /> */}
       </Container>
